@@ -27,7 +27,7 @@ def read_item(pais: str):
 @app.get("/paises")
 def get_paises():
     # Cargar el archivo CSV
-    df = pd.read_csv("../../../animated/01 renewable-share-energy.csv")
+    df = pd.read_csv("./data/01 renewable-share-energy.csv")
     # Obtener la lista de países únicos
     paises = df["Entity"].unique().tolist()
     return {"paises": paises}

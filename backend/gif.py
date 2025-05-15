@@ -9,7 +9,7 @@ def create_gif(pais):
     except FileNotFoundError:
         pass
     # Cargar el archivo CSV
-    df = pd.read_csv("../../../animated/01 renewable-share-energy.csv")
+    df = pd.read_csv("./data/01 renewable-share-energy.csv")
     # Filtrar datos para África
     df_africa = df[df["Entity"] == pais].copy()
     df_africa = df_africa.sort_values("Year")
