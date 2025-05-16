@@ -42,6 +42,6 @@ def generar_graficos():
 
         os.makedirs(output_path, exist_ok=True)
         generar_todos_los_graficos(output_path)
-        return {"message": "Gráficos generados exitosamente.", "file": f"http://localhost:8000/public/graficos/grafico_torta_renovables.gif"}
+        return {"message": "Gráficos generados exitosamente.", "torta": f"http://localhost:8000/public/graficos/grafico_torta_renovables.gif", "top10": f"http://localhost:8000/public/graficos/grafico_top_10_renovables.gif", "top 10 paises": f"http://localhost:8000/public/graficos/grafico_top_10_paises_renovables.gif"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
