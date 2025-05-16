@@ -71,12 +71,19 @@ def get_paises():
 @app.get("/principal")
 def generar_graficos():
     try:
+        # retornar si los graficos ya existen
+        if os.path.exists("./public/graficos/grafico_torta_renovables.gif") and os.path.exists("./public/graficos/top10_renovables_2022.gif") and os.path.exists("./public/graficos/grafico_top_10_paises_renovables.gif"):
+            return {"message": "Gráficos ya existen", 
+                    "torta": f"http://localhost:8000/public/graficos/grafico_torta_renovables.gif", 
+                    "top10": f"http://localhost:8000/public/graficos/top10_renovables_2022.gif"}
         output_path = os.path.join("./public/", "graficos/")
         # Crear el directorio de salida si no existe
 
         os.makedirs(output_path, exist_ok=True)
         generar_todos_los_graficos(output_path)
-        return {"message": "Gráficos generados exitosamente.", "torta": f"http://localhost:8000/public/graficos/grafico_torta_renovables.gif", "top10": f"http://localhost:8000/public/graficos/grafico_top_10_renovables.gif", "top 10 paises": f"http://localhost:8000/public/graficos/grafico_top_10_paises_renovables.gif"}
+        return {"message": "Gráficos generados exitosamente.", 
+                "torta": f"http://localhost:8000/public/graficos/grafico_torta_renovables.gif", 
+                "top10": f"http://localhost:8000/public/graficos/top10_renovables_2022.gif"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
     
