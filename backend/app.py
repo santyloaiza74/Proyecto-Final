@@ -2,7 +2,10 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from gif import create_gif
+from graficos import generar_todos_los_graficos
 import pandas as pd
+import os
+from fastapi import HTTPException
 app = FastAPI()
 
 origins = [
@@ -31,3 +34,14 @@ def get_paises():
     # Obtener la lista de países únicos
     paises = df["Entity"].unique().tolist()
     return {"paises": paises}
+@app.get("/principal")
+def generar_graficos():
+    try:
+        output_path = os.path.join("./public/", "graficos/")
+        # Crear el directorio de salida si no existe
+
+        os.makedirs(output_path, exist_ok=True)
+        generar_todos_los_graficos(output_path)
+        return {"message": "Gráficos generados exitosamente.", "file": f"http://localhost:8000/public/graficos/grafico_torta_renovables.gif"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
