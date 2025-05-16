@@ -6,6 +6,8 @@ from graficos import generar_todos_los_graficos
 import pandas as pd
 import os
 from fastapi import HTTPException
+from pydantic import BaseModel
+#middleware
 app = FastAPI()
 
 origins = [
@@ -19,6 +21,38 @@ app.add_middleware(
     allow_headers=["*"]
 )
 app.mount("/public", StaticFiles(directory="public"), name="public")
+
+# Cargar los archivos CSV
+CSV_DIR = "csv"
+
+csv_files = {
+    "solar": "12 solar-energy-consumption.csv",
+    "wind": "08 wind-generation.csv",
+    "hydro": "05 hydropower-consumption.csv",
+    "geothermal": "17 installed-geothermal-capacity.csv"
+}
+
+data = {}
+
+for key, filename in csv_files.items():
+    path = os.path.join(CSV_DIR, filename)
+    try:
+        df = pd.read_csv(path)
+        data[key] = df
+    except Exception as e:
+        print(f"Error cargando {filename}: {e}")
+
+class CalculoInput(BaseModel):
+    pais: str
+    anio: int
+    consumo_kwh: float
+
+class CalculoOutput(BaseModel):
+    proporcion_renovable: float
+    consumo_renovable_estimado: float
+    porcentaje_estimado: float
+
+#Rutas
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
@@ -45,3 +79,34 @@ def generar_graficos():
         return {"message": "Gráficos generados exitosamente.", "torta": f"http://localhost:8000/public/graficos/grafico_torta_renovables.gif", "top10": f"http://localhost:8000/public/graficos/grafico_top_10_renovables.gif", "top 10 paises": f"http://localhost:8000/public/graficos/grafico_top_10_paises_renovables.gif"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+    
+@app.post("/calcular")
+def calcular_renovable(datos: CalculoInput):
+    total_renovable = 0.0
+    for df in data.values():
+        if 'Entity' not in df.columns or 'Year' not in df.columns:
+            continue
+
+        df_filtrado = df[(df['Entity'] == datos.pais) & (df['Year'] == datos.anio)]
+
+        if not df_filtrado.empty:
+            # Busca una columna numérica que represente consumo o capacidad
+            for col in df_filtrado.columns:
+                if col not in ['Entity', 'Year'] and pd.api.types.is_numeric_dtype(df_filtrado[col]):
+                    valor = df_filtrado[col].values[0]
+                    if pd.notna(valor):
+                        total_renovable += valor
+                        break
+
+    if total_renovable == 0:
+        raise HTTPException(status_code=404, detail="Datos insuficientes para el cálculo")
+
+    proporcion = total_renovable / 100  
+    consumo_renovable = proporcion * datos.consumo_kwh
+    porcentaje = (consumo_renovable / datos.consumo_kwh) * 100 if datos.consumo_kwh > 0 else 0.0
+
+    return CalculoOutput(
+        proporcion_renovable=proporcion,
+        consumo_renovable_estimado=consumo_renovable,
+        porcentaje_estimado=porcentaje
+    )
