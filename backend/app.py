@@ -26,10 +26,10 @@ app.mount("/public", StaticFiles(directory="public"), name="public")
 CSV_DIR = "csv"
 
 csv_files = {
-    "solar": "12 solar-energy-consumption.csv",
-    "wind": "08 wind-generation.csv",
-    "hydro": "05 hydropower-consumption.csv",
-    "geothermal": "17 installed-geothermal-capacity.csv"
+    "solar": "./data/12 solar-energy-consumption.csv",
+    "wind": "./data/08 wind-generation.csv",
+    "hydro": "./data/05 hydropower-consumption.csv",
+    "geothermal": "./data/17 installed-geothermal-capacity.csv"
 }
 
 data = {}
@@ -72,10 +72,12 @@ def get_paises():
 def generar_graficos():
     try:
         # retornar si los graficos ya existen
-        if os.path.exists("./public/graficos/grafico_torta_renovables.gif") and os.path.exists("./public/graficos/top10_renovables_2022.gif") and os.path.exists("./public/graficos/grafico_top_10_paises_renovables.gif"):
+        if os.path.exists("./public/graficos/grafico_torta_renovables.gif") and os.path.exists("./public/graficos/top10_renovables_2022.gif") and os.path.exists("./public/graficos/grafico_area_consumo.gif") and os.path.exists("./public/graficos/grafico_lineas_capacidad_instalada.gif"):
             return {"message": "Gráficos ya existen", 
                     "torta": f"http://localhost:8000/public/graficos/grafico_torta_renovables.gif", 
-                    "top10": f"http://localhost:8000/public/graficos/top10_renovables_2022.gif"}
+                    "top10": f"http://localhost:8000/public/graficos/top10_renovables_2022.gif",
+                    "lineas": f"http://localhost:8000/public/graficos/grafico_lineas_capacidad_instalada.gif",
+                    "area": f"http://localhost:8000/public/graficos/grafico_area_consumo.gif"}
         output_path = os.path.join("./public/", "graficos/")
         # Crear el directorio de salida si no existe
 
@@ -83,7 +85,9 @@ def generar_graficos():
         generar_todos_los_graficos(output_path)
         return {"message": "Gráficos generados exitosamente.", 
                 "torta": f"http://localhost:8000/public/graficos/grafico_torta_renovables.gif", 
-                "top10": f"http://localhost:8000/public/graficos/top10_renovables_2022.gif"}
+                "top10": f"http://localhost:8000/public/graficos/top10_renovables_2022.gif",
+                "lineas": f"http://localhost:8000/public/graficos/grafico_lineas_capacidad_instalada.gif",
+                "area": f"http://localhost:8000/public/graficos/grafico_area_consumo.gif"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
     
