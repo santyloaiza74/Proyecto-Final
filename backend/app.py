@@ -115,7 +115,6 @@ def calcular(datos: CalculoInput):
     proporcion = total_renovable / 100  
     consumo_renovable = proporcion * datos.consumo_kwh
     porcentaje = (consumo_renovable / datos.consumo_kwh) * 100 if datos.consumo_kwh > 0 else 0.0
-    print(f"Proporción renovable: {proporcion}, Consumo renovable estimado: {consumo_renovable}, Porcentaje estimado: {porcentaje}")
     return CalculoOutput(
         proporcion_renovable=proporcion,
         consumo_renovable_estimado=consumo_renovable,
