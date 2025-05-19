@@ -91,7 +91,7 @@ def generar_graficos():
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
     
-@app.post("/calcular")
+@app.post("/calcular", response_model=CalculoOutput)
 def calcular_renovable(datos: CalculoInput):
     total_renovable = 0.0
     for df in data.values():
