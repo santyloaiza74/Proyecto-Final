@@ -13,15 +13,25 @@ const EstimadorRenovable = () => {
   const [resultado1, setResultado1] = useState(null);
   const [resultado2, setResultado2] = useState(null);
   const [error, setError] = useState("");
+  const [gifUrl, setGifUrl] = useState(null);
 
+  // Obtener lista de países
   useEffect(() => {
     axios.get("http://localhost:8000/paises")
-      .then(res => {
-        setPaises(res.data.paises); 
-      })
+      .then(res => setPaises(res.data.paises))
       .catch(() => setError("Error cargando países"));
   }, []);
 
+  // Cargar el GIF automáticamente al seleccionar un país
+  useEffect(() => {
+    if (pais) {
+      setGifUrl(`http://localhost:8000/pais/${pais}`);
+    } else {
+      setGifUrl(null);
+    }
+  }, [pais]);
+
+  // Función para hacer el cálculo al presionar el botón
   const calcular = async () => {
     try {
       const res = await axios.post("http://localhost:8000/calcular", {
@@ -35,6 +45,8 @@ const EstimadorRenovable = () => {
       setError("");
     } catch (err) {
       setResultado(null);
+      setResultado1(null);
+      setResultado2(null);
       setError("Error al calcular. Verifica los datos.");
     }
   };
@@ -42,8 +54,9 @@ const EstimadorRenovable = () => {
   return (
     <>
       <Header />
-      <div className="container py-5 d-flex justify-content-center">
-        <div className="card shadow p-4" style={{ maxWidth: "600px", width: "100%" }}>
+      <div className="container py-5 d-flex flex-column align-items-center">
+        {/* Estimador */}
+        <div className="card shadow p-4 mb-4" style={{ maxWidth: "600px", width: "100%" }}>
           <h2 className="mb-4 text-center text-success">💡 Estimador de Energía Renovable</h2>
           <div className="mb-3">
             <label className="form-label fw-bold">🌍 País</label>
@@ -81,27 +94,38 @@ const EstimadorRenovable = () => {
             <button className="btn btn-success" onClick={calcular}>
               Calcular Proporción
             </button>
-            <br></br>
           </div>
 
           {resultado && (
             <div className="alert alert-info mt-4 text-center">
-              <strong>{resultado}%</strong> de tu consumo podría cubrirse con energía renovables<br />
-              <strong>{resultado1}Kw</strong> estimado de tu consumo<br />
-              <strong>{resultado2}%</strong> estimado de tu consumo a futuro<br />
+              <strong>{resultado}%</strong> de tu consumo podría cubrirse con energías renovables<br />
+              <strong>{resultado1} kWh</strong> de energía renovable estimada<br />
+              <strong>{resultado2}%</strong> estimado de cobertura futura<br />
             </div>
           )}
 
           {error && (
             <div className="alert alert-danger mt-4 text-center">{error}</div>
           )}
-          <br></br>
-          <Link to="/" className="btn btn-primary">
-            Regresar
-          </Link>
+
+          <div className="mt-3 text-center">
+            <Link to="/" className="btn btn-primary">Regresar</Link>
+          </div>
         </div>
+
+        {/* Contenedor del gráfico dinámico */}
+        {gifUrl && (
+          <div className="card shadow p-4" style={{ maxWidth: "600px", width: "100%" }}>
+            <h2 className="mb-4 text-center text-success">📊 Evolución Energética de {pais}</h2>
+            <img
+              src={gifUrl.file}
+              alt={`GIF de evolución energética de ${pais}`}
+              className="img-fluid rounded border"
+            />
+          </div>
+        )}
       </div>
-      <Footer/>
+      <Footer />
     </>
   );
 };
