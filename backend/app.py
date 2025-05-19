@@ -23,13 +23,13 @@ app.add_middleware(
 app.mount("/public", StaticFiles(directory="public"), name="public")
 
 # Cargar los archivos CSV
-CSV_DIR = "csv"
+CSV_DIR = "./data/"
 
 csv_files = {
-    "solar": "./data/12 solar-energy-consumption.csv",
-    "wind": "./data/08 wind-generation.csv",
-    "hydro": "./data/05 hydropower-consumption.csv",
-    "geothermal": "./data/17 installed-geothermal-capacity.csv"
+    "solar": "12 solar-energy-consumption.csv",
+    "wind": "08 wind-generation.csv",
+    "hydro": "05 hydropower-consumption.csv",
+    "geothermal": "17 installed-geothermal-capacity.csv"
 }
 
 data = {}
@@ -92,7 +92,7 @@ def generar_graficos():
         raise HTTPException(status_code=500, detail=str(e))
     
 @app.post("/calcular", response_model=CalculoOutput)
-def calcular_renovable(datos: CalculoInput):
+def calcular(datos: CalculoInput):
     total_renovable = 0.0
     for df in data.values():
         if 'Entity' not in df.columns or 'Year' not in df.columns:
@@ -115,7 +115,7 @@ def calcular_renovable(datos: CalculoInput):
     proporcion = total_renovable / 100  
     consumo_renovable = proporcion * datos.consumo_kwh
     porcentaje = (consumo_renovable / datos.consumo_kwh) * 100 if datos.consumo_kwh > 0 else 0.0
-
+    print(f"Proporción renovable: {proporcion}, Consumo renovable estimado: {consumo_renovable}, Porcentaje estimado: {porcentaje}")
     return CalculoOutput(
         proporcion_renovable=proporcion,
         consumo_renovable_estimado=consumo_renovable,
