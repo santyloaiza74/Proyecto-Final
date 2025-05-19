@@ -3,6 +3,8 @@ import axoiss from "axios";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import { Card, CardBody, CardTitle, Spinner } from "react-bootstrap";
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import Form from 'react-bootstrap/Form';
 function Principal() {
   const [data, setData] = useState([]);
   const [opciones, setOpciones] = useState([]);
@@ -41,30 +43,31 @@ function Principal() {
     <>
       <div>
         <Navbar className="bg-body-tertiary">
-          <Container>
-            <Navbar.Brand href="#home">
-              <img
-                alt=""
-                src="../../public/vite.svg"
-                width="30"
-                height="30"
-                className="d-inline-block align-top"
-              />{" "}
-              React Bootstrap
-            </Navbar.Brand>
-          </Container>
-        </Navbar>
+        <Container>
+          <Navbar.Brand href="#home">
+            <img
+              alt=""
+              src="../../public/images.jpg"
+              width="30"
+              height="30"
+              className="d-inline-block align-top"
+            />{' '}
+            React Bootstrap
+          </Navbar.Brand>
+        </Container>
+      </Navbar>
       </div>
       <div>
-        <label htmlFor="pais">Selecciona un país:</label>
-        <select id="pais" value={seleccionado} onChange={manejarCambio}>
-          <option value="">-- Selecciona una opción --</option>
+        <FloatingLabel controlId="floatingSelect" label="Works with selects">
+          <Form.Select aria-label="Floating label select example" id="pais" value={seleccionado} onChange={manejarCambio}>
+            <option value="">-- Selecciona una opción --</option>
           {opciones.map((opcion, index) => (
             <option key={index} value={opcion}>
               {opcion}
             </option>
           ))}
-        </select>
+          </Form.Select>
+        </FloatingLabel>
         {loading ? (
           <Spinner animation="border" role="status">
             <span className="sr-only"></span>
