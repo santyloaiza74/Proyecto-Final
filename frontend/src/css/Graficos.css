@@ -1,0 +1,52 @@
+
+.container-graficos {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.titulo-principal {
+  font-size: 2.25rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #047857; /* verde oscuro */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.grid-graficos {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .grid-graficos {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.card-grafico {
+  background-color: #ffffff;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  transition: transform 0.2s ease-in-out;
+}
+
+.card-grafico:hover {
+  transform: scale(1.02);
+}
+
+.card-titulo {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: #1f2937; /* gris oscuro */
+}
+
+.card-imagen {
+  width: 100%;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+}

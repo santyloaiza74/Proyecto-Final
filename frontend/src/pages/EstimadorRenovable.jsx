@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Header from "../components/Navbar";
+import Footer from "../components/Footer";
 
 const EstimadorRenovable = () => {
   const [paises, setPaises] = useState([]);
@@ -80,6 +81,7 @@ const EstimadorRenovable = () => {
             <button className="btn btn-success" onClick={calcular}>
               Calcular Proporción
             </button>
+            <br></br>
           </div>
 
           {resultado && (
@@ -93,11 +95,13 @@ const EstimadorRenovable = () => {
           {error && (
             <div className="alert alert-danger mt-4 text-center">{error}</div>
           )}
+          <br></br>
           <Link to="/" className="btn btn-primary">
             Regresar
           </Link>
         </div>
       </div>
+      <Footer/>
     </>
   );
 };

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Header from '../components/Navbar';
+import '../css/Graficos.css';
+import Footer from '../components/Footer';
 
 const Graficos = () => {
   const [graficos, setGraficos] = useState(null);
@@ -22,25 +24,26 @@ const Graficos = () => {
   return (
     <>
       <Header />
-      <div className="p-6 max-w-5xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6 text-center text-green-700">
+      <div className="container-graficos">
+        <h1 className="titulo-principal">
           Visualización de Gráficos de Energía Renovable
         </h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid-graficos">
           <Grafico nombre="Producción de Energía Renovable por Fuente" archivo={graficos.top10} />
           <Grafico nombre="Participación de Energías Renovables" archivo={graficos.torta} />
           <Grafico nombre="Capacidad Instalada por Fuente" archivo={graficos.lineas} />
           <Grafico nombre="Consumo Final de Energía" archivo={graficos.area} />
         </div>
       </div>
+      <Footer />
     </>
   );
 };
 
 const Grafico = ({ nombre, archivo }) => (
-  <div className="bg-white rounded-xl shadow-md p-6">
-    <h2 className="text-lg font-semibold mb-2">{nombre}</h2>
-    <img src={archivo} alt={nombre} className="w-full rounded-md border" />
+  <div className="card-grafico">
+    <h2 className="card-titulo">{nombre}</h2>
+    <img src={archivo} alt={nombre} className="card-imagen"/>
   </div>
 );
 
