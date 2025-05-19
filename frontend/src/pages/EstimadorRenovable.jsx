@@ -21,11 +21,12 @@ const EstimadorRenovable = () => {
       .then(res => setPaises(res.data.paises))
       .catch(() => setError("Error cargando países"));
   }, []);
-
   // Cargar el GIF automáticamente al seleccionar un país
   useEffect(() => {
     if (pais) {
-      setGifUrl(`http://localhost:8000/pais/${pais}`);
+      axios.get(`http://localhost:8000/pais/${pais}`)
+      .then(res=>setGifUrl(res.data))
+      .catch(() => setError("Error cargando el GIF"));
     } else {
       setGifUrl(null);
     }
@@ -54,7 +55,7 @@ const EstimadorRenovable = () => {
   return (
     <>
       <Header />
-      <div className="container py-5 d-flex flex-column align-items-center">
+      <div className="container py-5 d-flex  align-items-center grid-graficos">
         {/* Estimador */}
         <div className="card shadow p-4 mb-4" style={{ maxWidth: "600px", width: "100%" }}>
           <h2 className="mb-4 text-center text-success">💡 Estimador de Energía Renovable</h2>
@@ -113,7 +114,6 @@ const EstimadorRenovable = () => {
           </div>
         </div>
 
-        {/* Contenedor del gráfico dinámico */}
         {gifUrl && (
           <div className="card shadow p-4" style={{ maxWidth: "600px", width: "100%" }}>
             <h2 className="mb-4 text-center text-success">📊 Evolución Energética de {pais}</h2>
