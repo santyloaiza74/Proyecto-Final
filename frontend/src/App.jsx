@@ -9,7 +9,6 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path='/' Component={InfoEnergia}></Route>
-        <Route path='/Principal' Component={Principal}></Route>
         <Route path='/Graficos' Component={Graficos}></Route>
         <Route path='/Estimador' Component={EstimadorRenovable}></Route>
       </Routes>

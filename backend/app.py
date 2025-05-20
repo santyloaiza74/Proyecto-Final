@@ -53,9 +53,6 @@ class CalculoOutput(BaseModel):
     porcentaje_estimado: float
 
 #Rutas
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
 @app.get("/pais/{pais}")
 def read_item(pais: str):
     response=create_gif(pais)
