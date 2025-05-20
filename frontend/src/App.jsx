@@ -1,6 +1,5 @@
 import {BrowserRouter,Routes,Route} from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import Principal from './pages/Principal'
 import InfoEnergia from './pages/Infoenergia'
 import Graficos from './pages/Graficos'
 import EstimadorRenovable from './pages/EstimadorRenovable'

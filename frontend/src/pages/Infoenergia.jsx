@@ -27,6 +27,10 @@ const InfoEnergia = () => {
             <Col md={6}>
               <Card className="mb-4 shadow">
                 <Card.Body>
+                  <Card.Title>¿Por qué elegir Energía Solar?</Card.Title>
+                  <Card.Text>
+                    La energía solar es una fuente limpia, silenciosa e inagotable. Aprovecha la radiación del sol para generar electricidad o calor, ayudando a reducir la huella de carbono y promoviendo un futuro más sostenible para todos.
+                  </Card.Text>
                   <Card.Title>Principales Ventajas</Card.Title>
                   <ul>
                     <li>Es una fuente inagotable y ampliamente disponible.</li>

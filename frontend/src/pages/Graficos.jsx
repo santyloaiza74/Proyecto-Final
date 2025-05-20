@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import Header from '../components/Navbar';
+import Navbar from '../components/Navbar';
 import '../css/Graficos.css';
 import Footer from '../components/Footer';
+
+const nombresGraficos = {
+  top10: "Producción de Energía Renovable por Fuente (Animado)",
+  torta: "Participación de Energías Renovables en el Consumo Eléctrico",
+  lineas: "Evolución de la Capacidad Instalada de Energías Renovables",
+  area: "Comparativa de Consumo: Renovable vs Convencional"
+};
 
 const Graficos = () => {
   const [graficos, setGraficos] = useState(null);
@@ -23,16 +30,16 @@ const Graficos = () => {
 
   return (
     <>
-      <Header />
+      <Navbar />
       <div className="container-graficos">
         <h1 className="titulo-principal">
           Visualización de Gráficos de Energía Renovable
         </h1>
         <div className="grid-graficos">
-          <Grafico nombre="Producción de Energía Renovable por Fuente" archivo={graficos.top10} />
-          <Grafico nombre="Participación de Energías Renovables" archivo={graficos.torta} />
-          <Grafico nombre="Capacidad Instalada por Fuente" archivo={graficos.lineas} />
-          <Grafico nombre="Consumo Final de Energía" archivo={graficos.area} />
+          <Grafico nombre={nombresGraficos.top10} archivo={graficos.top10} />
+          <Grafico nombre={nombresGraficos.torta} archivo={graficos.torta} />
+          <Grafico nombre={nombresGraficos.lineas} archivo={graficos.lineas} />
+          <Grafico nombre={nombresGraficos.area} archivo={graficos.area} />
         </div>
       </div>
       <Footer />

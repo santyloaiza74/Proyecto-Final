@@ -92,7 +92,7 @@ const EstimadorRenovable = () => {
           </div>
 
           <div className="d-grid">
-            <button className="btn btn-success" onClick={calcular}>
+            <button className="btn btn-success" style={{ background: "#10b981", border: "none" }} onClick={calcular}>
               Calcular Proporción
             </button>
           </div>

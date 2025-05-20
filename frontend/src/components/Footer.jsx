@@ -1,23 +1,16 @@
 import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
-import '../css/Footer.css'; 
+import '../css/Footer.css';
 
-const Footer = () => {
-  return (
-    <footer className="site-footer mt-5">
-      <Container>
-        <Row className="text-center text-md-left">
-          <Col md={6}>
-            <h5 className="footer-title">Energía Renovable</h5>
-            <p>Promoviendo un futuro sostenible a través de fuentes limpias e inagotables.</p>
-          </Col>
-          <Col md={6} className="text-md-right mt-3 mt-md-0">
-            <p>&copy; {new Date().getFullYear()} Proyecto Energías Limpias. Todos los derechos reservados.</p>
-          </Col>
-        </Row>
-      </Container>
-    </footer>
-  );
-};
+const Footer = () => (
+  <footer className="site-footer">
+    <div className="container text-center">
+      <div className="footer-title">Energía Renovable</div>
+      <div>Impulsando un futuro más limpio y sostenible para todos.</div>
+      <div style={{ marginTop: "0.5rem", fontSize: "0.9rem" }}>
+        &copy; {new Date().getFullYear()} Proyecto Final | Hecho con pasión por el planeta
+      </div>
+    </div>
+  </footer>
+);
 
 export default Footer;
